@@ -2,11 +2,14 @@ import express from 'express';
 import mongoose from 'mongoose';
 import Tasks from './models/Task.js';
 import Cors from 'cors';
+import dotenv from 'dotenv';
+
+dotenv.config({path: './.env'});
 
 const app = express();
 const port = process.env.PORT || 8001;
 
-const conn_url = 'mongodb+srv://admin:n1tMgoAhKFRgm0Hi@cluster0.rzlwi.mongodb.net/to-do-list-db?retryWrites=true&w=majority';
+const conn_url = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.rzlwi.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
 app.use(express.json());
 app.use(Cors());
@@ -67,4 +70,4 @@ app.delete('/tasks', (request, response) => {
     })
 });
 
-app.listen(port, () => console.log('worked'))
+app.listen(port, () => console.log('process', process.env.DB_NAME))
